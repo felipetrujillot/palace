@@ -8,7 +8,9 @@ import { LucideSearch, LucideShoppingCart } from 'lucide-vue-next'
       <LucideSearch class="cursor-pointer" />
     </div>
     <div>
-      <h1 class="text-4xl">PALACE</h1>
+      <NuxtLink to="/">
+        <h1 class="text-4xl">PALACE</h1>
+      </NuxtLink>
     </div>
     <div>
       <LucideShoppingCart class="cursor-pointer" />

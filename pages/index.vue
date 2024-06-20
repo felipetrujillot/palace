@@ -7,6 +7,7 @@ useHead({
 })
 
 definePageMeta({
+  layout: 'clean-layout',
   middleware: 'rootauth',
 })
 
@@ -46,12 +47,11 @@ const products: ProductsList[] = [
 </script>
 
 <template>
-  <div class="container py-5 space-y-4">
-    <PalaceNavbar />
-    <div class="grid grid-cols-3 gap-4 items-stretch">
-      <div v-for="(p, k) in products" :key="k" class="space-y-4">
-        <NuxtLink :to="`/producto/${p.product_href}`">
-          <Card class="p-0 bg-muted cursor-pointer">
+  <div class="container-sm space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
+      <div v-for="(p, k) in products" :key="k">
+        <NuxtLink :to="`/producto/${p.product_href}`" class="space-y-4">
+          <Card class="p-0 bg-muted cursor-pointer border-none">
             <img
               :src="p.picture_url"
               class="rounded-lg"
@@ -84,8 +84,5 @@ const products: ProductsList[] = [
     <div class="my-8">&nbsp;</div>
     <div class="my-8">&nbsp;</div>
     <div class="my-8">&nbsp;</div>
-    <!-- FOOTER -->
-    <PalaceFooter />
-    <!-- FOOTER -->
   </div>
 </template>

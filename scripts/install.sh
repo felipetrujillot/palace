@@ -9,7 +9,6 @@ apt update -y
 apt install -y curl wget git nginx php unzip php-curl php-mysqli php-simplexml php-fpm php-unzip mariadb-server
 
 
-
 #Instalo node 20
 curl -fsSL https://deb.nodesource.com/setup_20.x | bash - &&\
 apt-get install -y nodejs

@@ -1,11 +1,14 @@
 <template>
-  <div>
-    <div
-      class="bg-neutral-50 dark:bg-black"
-      style="min-height: calc(100vh - 4.1rem)"
-    >
-      <div class="container py-5 space-y-4">
+  <div class="bg-neutral-50 dark:bg-black min-h-screen min-w-screen">
+    <div class="py-5 space-y-6">
+      <div class="container-sm px-8">
+        <PalaceNavbar />
+      </div>
+      <div class="container">
         <slot />
+      </div>
+      <div class="container-sm px-8">
+        <PalaceFooter />
       </div>
     </div>
   </div>
