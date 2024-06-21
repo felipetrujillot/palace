@@ -4,7 +4,7 @@
       <div class="container-sm px-8">
         <PalaceNavbar />
       </div>
-      <div class="container">
+      <div class="container-sm space-y-6 px-8">
         <slot />
       </div>
       <div class="container-sm px-8">
