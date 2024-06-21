@@ -1,6 +1,6 @@
-import { db } from '~/server/db/db'
+import { db } from '~~/server/db/db'
 import { protectedProcedure, router } from '../trpc'
-import { companies } from '~/server/db/db_schema'
+import { companies } from '~~/server/db/db_schema'
 import { desc, eq } from 'drizzle-orm'
 import { z } from 'zod'
 import { RouterOutput } from '.'

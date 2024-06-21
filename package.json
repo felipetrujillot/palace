@@ -30,11 +30,9 @@
     "jsonwebtoken": "^9.0.2",
     "lucide-vue-next": "^0.376.0",
     "mysql2": "^3.9.7",
-    "nuxt": "^3.11.1",
     "openai": "^4.44.0",
     "puppeteer": "^22.7.1",
-    "radix-vue": "^1.8.1",
-    "shadcn-nuxt": "^0.10.4",
+    "radix-vue": "^1.8.4",
     "sharp": "^0.33.4",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
@@ -50,6 +48,8 @@
     "@types/crypto-js": "^4.2.2",
     "@types/formidable": "^3.4.5",
     "@types/jsonwebtoken": "^9.0.6",
+    "nuxt": "^3.12.2",
+    "shadcn-nuxt": "^0.10.4",
     "typescript": "^5.4.5"
   }
 }

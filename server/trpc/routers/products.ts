@@ -1,10 +1,10 @@
-import { db } from '~/server/db/db'
+import { db } from '~~/server/db/db'
 import { publicProcedure, router } from '../trpc'
 import {
   inventories,
   products,
   products_companies,
-} from '~/server/db/db_schema'
+} from '~~/server/db/db_schema'
 import { z } from 'zod'
 import { and, eq } from 'drizzle-orm'
 
