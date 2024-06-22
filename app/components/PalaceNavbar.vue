@@ -9,7 +9,7 @@ import { LucideSearch, LucideShoppingCart } from 'lucide-vue-next'
     </div>
     <div>
       <NuxtLink to="/">
-        <h1 class="text-4xl">PALACE</h1>
+        <h1 class="text-4xl">HEADER</h1>
       </NuxtLink>
     </div>
     <div>

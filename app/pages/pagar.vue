@@ -175,11 +175,19 @@ const products: ProductsList[] = [
         >
 
         <div class="flex justify-end">
-          <img
-            width="200"
-            style="filter: contrast(0) brightness(0) invert(1)"
-            src="https://sandbox.flow.cl/images/header/logo-flow.svg"
-          />
+          <div>
+            <h1 class="text-end text-sm">Métodos de pago:</h1>
+
+            <img
+              width="200"
+              src="https://vantek.vtexassets.com/arquivos/ids/168043"
+            />
+            <!-- <img
+              width="200"
+              style="filter: contrast(0) brightness(0) invert(1)"
+              src="https://sandbox.flow.cl/images/header/logo-flow.svg"
+            /> -->
+          </div>
         </div>
       </Card>
     </div>

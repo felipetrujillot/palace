@@ -94,9 +94,9 @@ export const getCurrentDate = () => {
   const [day, month, year] = formattedDate.split('-')
 
   const newDat = new Date(
-    parseInt(year),
-    parseInt(month) - 1,
-    parseInt(day),
+    parseInt(year!),
+    parseInt(month!) - 1,
+    parseInt(day!),
     0,
     0,
     0,

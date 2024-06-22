@@ -64,6 +64,7 @@ const products: ProductsList[] = [
           <img
             :src="p.picture_url"
             class="rounded-lg"
+            lazy
             style="
               max-height: 50vh;
               min-height: 50vh;

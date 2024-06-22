@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { LucideTruck } from 'lucide-vue-next'
-import DocumentTitle from '~/components/DocumentTitle.vue'
-import PalaceNavbar from '~/components/PalaceNavbar.vue'
 
 definePageMeta({
   layout: 'clean-layout',
@@ -14,15 +12,18 @@ const id_product_company = parseInt(route.params.id_product_company as string)
 /**
  *
  */
-const { data: product, pending } =
+const { data: product, status } =
   await $trpc.products.getProductByName.useQuery({
     id_product_company: id_product_company,
   })
 </script>
 
 <template>
-  <VueSkeleton v-if="pending" />
-  <div class="flex flex-col md:flex-row gap-12" v-if="!pending && product">
+  <VueSkeleton v-if="status === 'pending'" />
+  <div
+    class="flex flex-col md:flex-row gap-12"
+    v-if="status === 'success' && product"
+  >
     <DocumentTitle :title="product.name" />
     <div class="basis-3/5">
       <Card
