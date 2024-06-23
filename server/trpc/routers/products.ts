@@ -6,7 +6,8 @@ import {
   products_companies,
 } from '~~/server/db/db_schema'
 import { z } from 'zod'
-import { and, eq } from 'drizzle-orm'
+import { and, eq, gt, gte } from 'drizzle-orm'
+import { RouterOutput } from '.'
 
 /**
  *
@@ -18,7 +19,50 @@ export const productsTrpc = router({
    * @author FT
    */
   getProducts: publicProcedure.query(async () => {
-    return await db.select().from(products)
+    const id_company = 1
+
+    return await db
+      .select({
+        id_product: products.id_product,
+        id_product_company: products_companies.id_product_company,
+        id_company: products_companies.id_company,
+        id_inventory: inventories.id_inventory,
+        upc: products.upc,
+        sku: products.sku,
+        name: products.name,
+        brand: products.brand,
+        category: products.category,
+        description: products.description,
+        sub_category: products.sub_category,
+        url_picture: products.url_picture,
+        price: products_companies.price,
+        granel: products_companies.granel,
+        cost: products_companies.cost,
+        color: products_companies.color,
+        favorite: products_companies.favorite,
+        no_price: products_companies.no_price,
+        inventory_qty: products_companies.inventory_qty,
+        created_at: products_companies.created_at,
+        qty: inventories.qty,
+        critical_qty: inventories.critical_qty,
+      })
+      .from(products_companies)
+      .innerJoin(
+        products,
+        eq(products.id_product, products_companies.id_product)
+      )
+      .innerJoin(
+        inventories,
+        eq(inventories.id_inventory, products_companies.id_inventory)
+      )
+      .where(
+        and(
+          eq(products_companies.id_company, id_company),
+          gt(products_companies.price, 0),
+          eq(products_companies.granel, 0)
+        )
+      )
+      .limit(5)
   }),
 
   /**
@@ -91,3 +135,5 @@ export const productsTrpc = router({
       return findProducts[0] */
     }),
 })
+
+export type GetProductByName = RouterOutput['products']['getProductByName']

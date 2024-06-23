@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { $trpc } = useNuxtApp()
+import { LucideXCircle } from 'lucide-vue-next'
 import { regiones } from './regiones'
 documentTitle('Pagar')
 
@@ -8,6 +9,7 @@ definePageMeta({
   middleware: 'rootauth',
 })
 
+const cart = useCart()
 const isPaying = ref(false)
 
 /**
@@ -22,8 +24,6 @@ const payForm = ref({
   region: '',
   detalle: '',
 })
-
-const total = ref(1000)
 
 /**
  *
@@ -48,52 +48,12 @@ const newPayment = async () => {
     numero: payForm.value.numero,
     region: payForm.value.region,
     detalle: payForm.value.detalle,
+    amount: useTotalCart(),
   }
   const res = await $trpc.flow.newPayment.mutate(params)
 
   window.location.href = `${res.url}?token=${res.token}`
 }
-
-type ProductsList = {
-  product_name: string
-  product_href: string
-  picture_url: string
-  price: number
-}
-/**
- *
- */
-const products: ProductsList[] = [
-  {
-    product_name: 'Keyboard Pin',
-    product_href: 'keyboard-pin',
-    picture_url:
-      'https://www.lttstore.com/cdn/shop/files/KeyboardPins2000px-6.jpg?v=1717802778&width=1206',
-    price: 1000,
-  },
-
-  {
-    product_name: 'Retro Screwdriver',
-    product_href: 'retro-screwdriver',
-    picture_url:
-      'https://www.lttstore.com/cdn/shop/files/lttstore_RetroScrewdriver_TransparencyFile.png?v=1706132339&width=720',
-    price: 1000,
-  },
-  {
-    product_name: 'Screwdriver bit set',
-    product_href: 'screwdriver-bit-set',
-    picture_url:
-      'https://www.lttstore.com/cdn/shop/products/StandardBitSet_lttstoreImage-01_1.png?v=1668644732&width=720',
-    price: 1000,
-  },
-  {
-    product_name: 'Threads Board',
-    product_href: 'threads-board',
-    picture_url:
-      'https://i.kickstarter.com/assets/045/186/274/76e8ea680c451ef310d66f5fd81ee554_original.png?fit=scale-down&origin=ugc&width=680&sig=ii8EESazMYwnmRVD8K9MAoYvYdmbD4XwW3Vv1%2FSYZg0%3D',
-    price: 1000,
-  },
-]
 </script>
 
 <template>
@@ -158,16 +118,30 @@ const products: ProductsList[] = [
 
     <div class="basis-2/4">
       <Card>
-        <div class="border-b py-2" v-for="(p, k) in products" :key="k">
-          <div class="flex justify-between gap-4">
-            <p class="text-lg line-clamp-1 flex">fsdfds</p>
-            <p class="text-lg">$2.990&nbsp;</p>
+        <template v-if="cart">
+          <div class="border-b py-2" v-for="(p, k) in cart" :key="k">
+            <div class="flex justify-between gap-4">
+              <div class="flex gap-2 items-center">
+                <img height="50" width="50" :src="p.url_picture" />
+                <LucideXCircle
+                  :size="20"
+                  class="cursor-pointer"
+                  @click.prevent="removeProduct(p.id_product)"
+                />
+                <p class="text-lg line-clamp-1 flex">{{ p.name }}</p>
+              </div>
+              <div>
+                <p class="text-lg text-end">{{ clpFormat(p.price) }}</p>
+
+                <p class="text-sm text-end">Cantidad: {{ p.qty }}</p>
+              </div>
+            </div>
           </div>
-        </div>
+        </template>
 
         <div class="flex justify-between">
           <h1 class="text-2xl">TOTAL</h1>
-          <h1 class="text-2xl">{{ clpFormat(total) }}</h1>
+          <h1 class="text-2xl">{{ clpFormat(useTotalCart()) }}</h1>
         </div>
 
         <Button class="w-full" :disabled="isPaying" @click="newPayment()"
@@ -175,18 +149,22 @@ const products: ProductsList[] = [
         >
 
         <div class="flex justify-end">
-          <div>
-            <h1 class="text-end text-sm">Métodos de pago:</h1>
-
+          <h1 class="text-end text-sm">Métodos de pago:</h1>
+        </div>
+        <div class="flex justify-end items-end">
+          <div class="space-y-4">
             <img
               width="200"
               src="https://vantek.vtexassets.com/arquivos/ids/168043"
             />
-            <!-- <img
+            <img
               width="200"
-              style="filter: contrast(0) brightness(0) invert(1)"
+              style="
+                filter: contrast(0) brightness(0.9) invert(1);
+                object-fit: contain;
+              "
               src="https://sandbox.flow.cl/images/header/logo-flow.svg"
-            /> -->
+            />
           </div>
         </div>
       </Card>

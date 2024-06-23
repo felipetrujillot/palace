@@ -4,6 +4,7 @@ useHead({
   meta: [{ name: 'description', content: 'tienda' }],
 })
 
+const { $trpc } = useNuxtApp()
 definePageMeta({
   layout: 'clean-layout',
   middleware: 'rootauth',
@@ -16,6 +17,7 @@ type ProductsList = {
   picture_url: string
   price: number
 }
+
 /**
  *
  */
@@ -54,15 +56,21 @@ const products: ProductsList[] = [
     price: 1000,
   },
 ]
+
+/**
+ *
+ */
+const { data: getProducts, status } =
+  await $trpc.products.getProducts.useQuery()
 </script>
 
 <template>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
-    <div v-for="(p, k) in products" :key="k">
+    <div v-for="(p, k) in getProducts" :key="k">
       <NuxtLink :to="`/producto/${p.id_product_company}`" class="space-y-4">
         <Card class="p-0 bg-muted cursor-pointer border-none">
           <img
-            :src="p.picture_url"
+            :src="p.url_picture"
             class="rounded-lg"
             lazy
             style="
@@ -75,7 +83,7 @@ const products: ProductsList[] = [
         </Card>
         <div class="cursor-pointer">
           <h1 class="capitalize text-center text-2xl">
-            {{ p.product_name }}
+            {{ p.name }}
           </h1>
           <h1
             class="capitalize text-center font-bold text-2xl text-muted-foreground"

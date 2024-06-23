@@ -61,14 +61,44 @@ export const flowTrpc = router({
       z.object({
         nombre: z.string(),
         comuna: z.string(),
-        email: z.string(),
+        email: z.string().email(),
         numero: z.string(),
         region: z.string(),
         detalle: z.string(),
+        amount: z.number(),
       })
     )
-    .mutation(async () => {
-      return await ordenCobro()
+    .mutation(async ({ input }) => {
+      const { amount } = input
+      const body = {
+        apiKey,
+        commerceOrder: generateRandom5Digits(),
+        subject: 'Pago de prueba',
+        currency: 'CLP',
+        amount: amount,
+        email: 'trujillo.felipe1997@gmail.com',
+        urlConfirmation: 'https://www.google.cl',
+        urlReturn: 'https://www.google.cl',
+      }
+
+      const sign = signIn(body)
+      const bodyParams = getPack(body, 'POST')
+
+      type OrdenCobro = {
+        data: {
+          token: string
+          url: string
+          flowOrder: number
+        }
+      }
+      const { data } = <OrdenCobro>(
+        await axios.post(
+          sandboxUrl + 'payment/create',
+          `${bodyParams}&s=${sign}`
+        )
+      )
+
+      return data
     }),
 
   payInvoice: publicProcedure
@@ -156,38 +186,6 @@ const getOrdenStatus = async () => {
   )
 
   return data as GetOrdenStatus
-}
-/**
- *
- * @returns
- */
-const ordenCobro = async () => {
-  const body = {
-    apiKey,
-    commerceOrder: generateRandom5Digits(),
-    subject: 'Pago de prueba',
-    currency: 'CLP',
-    amount: 1000,
-    email: 'trujillo.felipe1997@gmail.com',
-    urlConfirmation: 'https://www.google.cl',
-    urlReturn: 'https://www.google.cl',
-  }
-
-  const sign = signIn(body)
-  const bodyParams = getPack(body, 'POST')
-
-  type OrdenCobro = {
-    data: {
-      token: string
-      url: string
-      flowOrder: number
-    }
-  }
-  const { data } = <OrdenCobro>(
-    await axios.post(sandboxUrl + 'payment/create', `${bodyParams}&s=${sign}`)
-  )
-
-  return data
 }
 
 /**

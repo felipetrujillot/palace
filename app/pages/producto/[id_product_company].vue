@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { LucideTruck } from 'lucide-vue-next'
+import type { GetProductByName } from '~~/server/trpc/routers/products'
 
 definePageMeta({
   layout: 'clean-layout',
@@ -8,7 +9,7 @@ definePageMeta({
 const route = useRoute()
 const { $trpc } = useNuxtApp()
 const id_product_company = parseInt(route.params.id_product_company as string)
-
+const showSheet = useSheet()
 /**
  *
  */
@@ -16,6 +17,28 @@ const { data: product, status } =
   await $trpc.products.getProductByName.useQuery({
     id_product_company: id_product_company,
   })
+
+/**
+ *
+ * @param p
+ */
+const addProduct = (p: GetProductByName) => {
+  if (!p) throw 'err'
+  addUseCart({
+    id_product: p.id_product!,
+    id_product_company: p.id_product_company!,
+    id_inventory: p.id_inventory!,
+    inventory_qty: p.inventory_qty!,
+    qty: p.qty!,
+    name: p.name!,
+    price: p.price!,
+    granel: p.granel!,
+    cost: p.cost!,
+    url_picture: p.url_picture!,
+  })
+  showSheet.value = true
+  //toast('ok', 'Se agregó el producto al carro')
+}
 </script>
 
 <template>
@@ -51,7 +74,12 @@ const { data: product, status } =
         </h1>
 
         <div class="space-y-2">
-          <Button class="w-full" variant="outline">Agregar a mi carro</Button>
+          <Button
+            class="w-full"
+            variant="outline"
+            @click.prevent="addProduct(product)"
+            >Agregar a mi carro</Button
+          >
           <Button class="w-full" @click.prevent="$router.push('/pagar')"
             >Comprar Ahora</Button
           >
