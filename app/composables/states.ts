@@ -25,6 +25,10 @@ export const MAX_AGE = 3600 * 24 * 365
  */
 export const useCart = () => useState<ProductCart[]>('useCart', () => [])
 
+/**
+ *
+ * @returns
+ */
 export const useSheet = () => useState('useSheet', () => false)
 
 /**

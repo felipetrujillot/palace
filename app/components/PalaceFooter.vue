@@ -3,7 +3,7 @@
 <template>
   <div class="flex justify-center">
     <div>
-      <h1 class="uppercase">Linebox SPA, Chile</h1>
+      <h1 class="text-sm">© 2024 Linebox SpA, Chile</h1>
     </div>
   </div>
 </template>

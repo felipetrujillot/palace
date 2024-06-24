@@ -89,7 +89,7 @@ const newPayment = async () => {
                   <SelectItem
                     v-for="(r, k) in regiones[15].comunas"
                     :key="k"
-                    :value="k.toString()"
+                    :value="r"
                   >
                     {{ r }}
                   </SelectItem>

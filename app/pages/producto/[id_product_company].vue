@@ -10,6 +10,7 @@ const route = useRoute()
 const { $trpc } = useNuxtApp()
 const id_product_company = parseInt(route.params.id_product_company as string)
 const showSheet = useSheet()
+
 /**
  *
  */
@@ -23,7 +24,10 @@ const { data: product, status } =
  * @param p
  */
 const addProduct = (p: GetProductByName) => {
-  if (!p) throw 'err'
+  if (!p) {
+    toast('err', 'Hubo un error al intentar agregar el producto')
+    throw 'err'
+  }
   addUseCart({
     id_product: p.id_product!,
     id_product_company: p.id_product_company!,

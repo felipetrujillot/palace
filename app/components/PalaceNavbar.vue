@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { LucideSearch, LucideShoppingCart } from 'lucide-vue-next'
 
-//const showSheet = ref(false)
-
+/**
+ *
+ */
 const showSheet = useSheet()
+
+/**
+ *
+ */
 const cart = useCart()
 </script>
 
@@ -17,11 +22,11 @@ const cart = useCart()
         <h1 class="text-4xl">HEADER</h1>
       </NuxtLink>
     </div>
-    <div class="flex gap-1">
-      <LucideShoppingCart
-        class="cursor-pointer"
-        @click.prevent="showSheet = !showSheet"
-      />
+    <div
+      class="flex gap-1 cursor-pointer"
+      @click.prevent="showSheet = !showSheet"
+    >
+      <LucideShoppingCart class="cursor-pointer" />
       <p>
         {{ cart?.length }}
       </p>
@@ -35,11 +40,17 @@ const cart = useCart()
         <SheetDescription> </SheetDescription>
       </SheetHeader>
       <div class="pt-4 pb-8 overflow-y-auto h-full space-y-4">
-        <div class="flex justify-between">
+        <div class="flex flex-col h-full justify-between">
           <div>
-            <p class="text-md font-medium text-muted-foreground">
-              Responsables:
-            </p>
+            <CartComponent />
+          </div>
+
+          <div>
+            <Button
+              class="w-full"
+              @click.prevent="$router.push('/pagar'), (showSheet = false)"
+              >Ir al Pago</Button
+            >
           </div>
         </div>
       </div>
