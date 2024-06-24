@@ -39,7 +39,56 @@ const validaForm = ref({
  *
  */
 const formHasError = () => {
-  return false
+  validaForm.value = {
+    nombre: false,
+    email: false,
+    comuna: false,
+    calle: false,
+    numero: false,
+    region: false,
+    detalle: false,
+  }
+
+  let hasError = false
+
+  const { nombre, email, comuna, calle, numero, region, detalle } =
+    payForm.value
+
+  if (nombre.length === 0) {
+    validaForm.value.nombre = true
+    hasError = true
+  }
+
+  if (email.length === 0) {
+    validaForm.value.email = true
+    hasError = true
+  }
+
+  if (comuna.length === 0) {
+    validaForm.value.comuna = true
+    hasError = true
+  }
+
+  if (calle.length === 0) {
+    validaForm.value.calle = true
+    hasError = true
+  }
+
+  if (numero.length === 0) {
+    validaForm.value.numero = true
+    hasError = true
+  }
+
+  if (region.length === 0) {
+    validaForm.value.region = true
+    hasError = true
+  }
+
+  if (detalle.length === 0) {
+    validaForm.value.detalle = true
+    hasError = true
+  }
+  return hasError
 }
 
 /**
@@ -49,8 +98,14 @@ const newPayment = async () => {
   isPaying.value = true
   const hasError = formHasError()
   if (hasError) {
-    throw new Error('yaera la wea')
+    isPaying.value = false
+    toast('warning', 'Debes completar los campos marcados')
+    return
+    //throw new Error('yaera la wea')
   }
+  /**
+   *
+   */
   const params = {
     nombre: payForm.value.nombre,
     email: payForm.value.email,
@@ -60,6 +115,10 @@ const newPayment = async () => {
     detalle: payForm.value.detalle,
     amount: useTotalCart(),
   }
+
+  /**
+   *
+   */
   const res = await $trpc.flow.newPayment.mutate(params)
 
   window.location.href = `${res.url}?token=${res.token}`
@@ -73,18 +132,22 @@ const newPayment = async () => {
         <div class="space-y-2">
           <Label>Nombre</Label>
           <Input
+            @focus="validaForm.nombre = false"
             :class="validaForm.nombre ? 'border-primary' : ''"
             placeholder="Mi nombre"
             v-model="payForm.nombre"
+            type="text"
           />
         </div>
 
         <div class="space-y-2">
           <Label>Correo Electrónico</Label>
           <Input
+            @focus="validaForm.email = false"
             :class="validaForm.email ? 'border-primary' : ''"
             placeholder="hola@ejemplo.cl"
             v-model="payForm.email"
+            type="email"
           />
         </div>
 
@@ -96,11 +159,11 @@ const newPayment = async () => {
         <div class="space-y-2">
           <Label>Comuna</Label>
           <div>
-            <Select
-              :class="validaForm.email ? 'border-primary' : ''"
-              v-model="payForm.region"
-            >
-              <SelectTrigger>
+            <Select v-model="payForm.region">
+              <SelectTrigger
+                @focus="validaForm.email = false"
+                :class="validaForm.email ? 'border-primary' : ''"
+              >
                 <SelectValue placeholder="Seleciona una comuna" />
               </SelectTrigger>
 
@@ -121,22 +184,33 @@ const newPayment = async () => {
         </div>
 
         <div class="space-y-2">
-          <Label :class="validaForm.email ? 'border-primary' : ''">Calle</Label>
-          <Input placeholder="Av. Ejemplo" v-model="payForm.calle" />
+          <Label>Calle</Label>
+          <Input
+            @focus="validaForm.calle = false"
+            :class="validaForm.calle ? 'border-primary' : ''"
+            placeholder="Av. Ejemplo"
+            v-model="payForm.calle"
+          />
         </div>
 
         <div class="space-y-2">
-          <Label :class="validaForm.email ? 'border-primary' : ''"
-            >Número</Label
-          >
-          <Input placeholder="1234" v-model="payForm.numero" />
+          <Label>Número</Label>
+          <Input
+            @focus="validaForm.numero = false"
+            :class="validaForm.numero ? 'border-primary' : ''"
+            placeholder="1234"
+            v-model="payForm.numero"
+          />
         </div>
 
         <div class="space-y-2">
-          <Label :class="validaForm.email ? 'border-primary' : ''"
-            >Detalle</Label
-          >
-          <Input placeholder="Casa o Dpto" v-model="payForm.detalle" />
+          <Label>Detalle</Label>
+          <Input
+            @focus="validaForm.detalle = false"
+            :class="validaForm.detalle ? 'border-primary' : ''"
+            placeholder="Casa o Dpto"
+            v-model="payForm.detalle"
+          />
         </div>
       </Card>
     </div>
