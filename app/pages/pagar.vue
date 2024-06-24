@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const { $trpc } = useNuxtApp()
-import { LucideXCircle } from 'lucide-vue-next'
 import { regiones } from './regiones'
 documentTitle('Pagar')
 
@@ -9,7 +8,6 @@ definePageMeta({
   middleware: 'rootauth',
 })
 
-const cart = useCart()
 const isPaying = ref(false)
 
 /**
@@ -28,7 +26,19 @@ const payForm = ref({
 /**
  *
  */
-const validaForm = () => {
+const validaForm = ref({
+  nombre: false,
+  email: false,
+  comuna: false,
+  calle: false,
+  numero: false,
+  region: false,
+  detalle: false,
+})
+/**
+ *
+ */
+const formHasError = () => {
   return false
 }
 
@@ -37,7 +47,7 @@ const validaForm = () => {
  */
 const newPayment = async () => {
   isPaying.value = true
-  const hasError = validaForm()
+  const hasError = formHasError()
   if (hasError) {
     throw new Error('yaera la wea')
   }
@@ -62,12 +72,20 @@ const newPayment = async () => {
       <Card>
         <div class="space-y-2">
           <Label>Nombre</Label>
-          <Input placeholder="Mi nombre" v-model="payForm.nombre" />
+          <Input
+            :class="validaForm.nombre ? 'border-primary' : ''"
+            placeholder="Mi nombre"
+            v-model="payForm.nombre"
+          />
         </div>
 
         <div class="space-y-2">
           <Label>Correo Electrónico</Label>
-          <Input placeholder="hola@ejemplo.cl" v-model="payForm.email" />
+          <Input
+            :class="validaForm.email ? 'border-primary' : ''"
+            placeholder="hola@ejemplo.cl"
+            v-model="payForm.email"
+          />
         </div>
 
         <div class="space-y-2">
@@ -78,7 +96,10 @@ const newPayment = async () => {
         <div class="space-y-2">
           <Label>Comuna</Label>
           <div>
-            <Select v-model="payForm.region">
+            <Select
+              :class="validaForm.email ? 'border-primary' : ''"
+              v-model="payForm.region"
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Seleciona una comuna" />
               </SelectTrigger>
@@ -100,17 +121,21 @@ const newPayment = async () => {
         </div>
 
         <div class="space-y-2">
-          <Label>Calle</Label>
+          <Label :class="validaForm.email ? 'border-primary' : ''">Calle</Label>
           <Input placeholder="Av. Ejemplo" v-model="payForm.calle" />
         </div>
 
         <div class="space-y-2">
-          <Label>Número</Label>
+          <Label :class="validaForm.email ? 'border-primary' : ''"
+            >Número</Label
+          >
           <Input placeholder="1234" v-model="payForm.numero" />
         </div>
 
         <div class="space-y-2">
-          <Label>Detalle</Label>
+          <Label :class="validaForm.email ? 'border-primary' : ''"
+            >Detalle</Label
+          >
           <Input placeholder="Casa o Dpto" v-model="payForm.detalle" />
         </div>
       </Card>
@@ -118,26 +143,7 @@ const newPayment = async () => {
 
     <div class="basis-2/4">
       <Card>
-        <template v-if="cart">
-          <div class="border-b py-2" v-for="(p, k) in cart" :key="k">
-            <div class="flex justify-between gap-4">
-              <div class="flex gap-2 items-center">
-                <img height="50" width="50" :src="p.url_picture" />
-                <LucideXCircle
-                  :size="20"
-                  class="cursor-pointer"
-                  @click.prevent="removeProduct(p.id_product)"
-                />
-                <p class="text-lg line-clamp-1 flex">{{ p.name }}</p>
-              </div>
-              <div>
-                <p class="text-lg text-end">{{ clpFormat(p.price) }}</p>
-
-                <p class="text-sm text-end">Cantidad: {{ p.qty }}</p>
-              </div>
-            </div>
-          </div>
-        </template>
+        <CartComponent />
 
         <div class="flex justify-between">
           <h1 class="text-2xl">TOTAL</h1>
@@ -151,6 +157,7 @@ const newPayment = async () => {
         <div class="flex justify-end">
           <h1 class="text-end text-sm">Métodos de pago:</h1>
         </div>
+
         <div class="flex justify-end items-end">
           <div class="space-y-4">
             <img

@@ -47,17 +47,24 @@ export const addUseCart = (product: ProductCart) => {
         granel: product.granel,
       },
     ]
+
+    persistCart()
     return
   }
 
   const findProduct = cart.value.find((c) => {
-    if (c.id_product === product.id_product) return c
+    if (c.id_product === product.id_product) {
+      persistCart()
+      return c
+    }
   })
 
   if (findProduct) {
     findProduct.qty += product.inventory_qty
     findProduct.cost += product.cost
     findProduct.price += product.price
+    persistCart()
+
     return
   }
 
@@ -66,6 +73,7 @@ export const addUseCart = (product: ProductCart) => {
     qty: product.inventory_qty,
     granel: product.granel,
   })
+  persistCart()
 
   return
 }
@@ -89,10 +97,12 @@ export const updateProductQty = (id_product: number, qty: number) => {
     findProduct.price = qty * originalPrice
     findProduct.cost = qty * originalCost
   }
+  persistCart()
 }
 
 /**
  *
+ * @param id_product
  */
 export const removeProduct = (id_product: number) => {
   const cart = useCart()
@@ -102,6 +112,7 @@ export const removeProduct = (id_product: number) => {
   })
 
   cart.value = filterProduct
+  persistCart()
 }
 
 /**
@@ -117,4 +128,16 @@ export const useTotalCart = () => {
     total += c.price
   })
   return total
+}
+
+/**
+ *
+ */
+const persistCart = () => {
+  const cartCookies = useCookie<ProductCart[]>('cart_cookie', {
+    maxAge: MAX_AGE,
+  })
+  const cart = useCart()
+
+  cartCookies.value = cart.value
 }

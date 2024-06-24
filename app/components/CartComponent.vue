@@ -14,7 +14,7 @@ const cart = useCart()
             class="cursor-pointer min-w-4 min-h-4 w-4 h-4"
             @click.prevent="removeProduct(p.id_product)"
           />
-          <p class="text-lg line-clamp-1 flex">{{ p.name }}</p>
+          <p class="text-md line-clamp-1">{{ p.name }}</p>
         </div>
         <div>
           <p class="text-lg text-end">{{ clpFormat(p.price) }}</p>

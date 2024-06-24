@@ -1,9 +1,29 @@
 <script setup lang="ts">
-const theme = useCookie('theme')
+import type { ProductCart } from './composables/states'
+
+/**
+ *
+ */
 useHead({
   bodyAttrs: {
-    class: 'dark',
+    class: 'light',
   },
+})
+
+/**
+ *
+ */
+onMounted(() => {
+  const cart = useCart()
+  const res = useCookie<ProductCart[]>('cart_cookie', {
+    maxAge: 3600 * 24 * 365,
+  })
+  if (res.value) {
+    /**
+     * Pendiente validaciones del carro
+     */
+    cart.value = res.value
+  }
 })
 </script>
 

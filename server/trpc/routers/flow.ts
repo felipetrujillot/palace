@@ -1,6 +1,6 @@
 import { generateRandom5Digits } from '~/composables/helper'
 import { publicProcedure, router } from '../trpc'
-import HmacSHA256 from 'crypto-js/hmac-sha256'
+import HmacSHA256 from 'crypto-js/hmac-sha256.js'
 
 import axios from 'axios'
 import { z } from 'zod'

@@ -2,8 +2,8 @@
 
 <template>
   <div class="flex justify-center">
-    <div>
-      <h1 class="text-sm">© 2024 Linebox SpA, Chile</h1>
-    </div>
+    <h1 class="text-sm">
+      © 2024 Linebox SpA, Chile. Todos los derechos reservados.
+    </h1>
   </div>
 </template>
