@@ -25,46 +25,10 @@ onMounted(() => {
     cart.value = res.value
   }
 })
-
-const inputForm = ref({
-  name: '',
-})
-
-const inputValidator = ref({
-  name: false,
-})
-
-/**
- *
- */
-const submitForm = () => {
-  inputValidator.value.name = true
-}
-
-/**
- *
- */
-const useError = () => {
-  const refError = ref('ring-ring ring-offset-2 ring-2')
-  return { refError }
-}
 </script>
 
 <template>
   <div>
-    <!--
-    <div class="container-sm my-8 space-y-6">
-      <Card>
-        <Input
-          :class="inputValidator.name ? 'border-primary' : ''"
-          @focus="inputValidator.name = false"
-          v-model="inputForm.name"
-          placeholder="Name"
-        />
-
-        <Button @click.prevent="submitForm">Avance</Button>
-      </Card>
-    </div> -->
     <NuxtLayout>
       <NuxtPage />
       <Toaster />
