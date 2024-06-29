@@ -140,18 +140,7 @@ export const inventories = mysqlTable('inventories', {
   updated_at: timestamp('updated_at'),
 })
 
-/**
- *
- */
-/* export const stages = mysqlTable('stages', {
-  id_stage: int('id_stage').primaryKey().autoincrement(),
-  stage_name: varchar('stage_name', { length: 250 }).notNull(),
-  start_date: varchar('start_date', { length: 250 }).notNull(),
-  end_date: varchar('end_date', { length: 250 }).notNull(),
-  active: int('active').default(1).notNull(),
-  created_at: timestamp('created_at').notNull().defaultNow(),
-  updated_at: timestamp('updated_at'),
-}) */
+
 
 export type Users = typeof users.$inferSelect
 export type PasswordsReset = typeof passwords_reset.$inferSelect
