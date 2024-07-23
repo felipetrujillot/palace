@@ -21,9 +21,9 @@ export default defineNuxtConfig({
      */
     componentDir: './app/components/ui',
   },
-  /* nitro: {
+  nitro: {
     preset: 'cloudflare-pages',
-  }, */
+  },
 
   app: {
     head: {
