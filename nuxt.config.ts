@@ -21,10 +21,10 @@ export default defineNuxtConfig({
      */
     componentDir: './app/components/ui',
   },
-  nitro: {
+  /*   nitro: {
     preset: 'node',
   },
-
+ */
   app: {
     head: {
       meta: [
