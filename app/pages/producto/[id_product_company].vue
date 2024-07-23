@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { LucideTruck } from 'lucide-vue-next'
 import type { GetProductByName } from '~~/server/trpc/routers/products'
-
 definePageMeta({
   layout: 'clean-layout',
 })
@@ -10,14 +9,30 @@ const route = useRoute()
 const { $trpc } = useNuxtApp()
 const id_product_company = parseInt(route.params.id_product_company as string)
 const showSheet = useSheet()
+const example = ref(0)
+
+const { data: ex } = useAsyncData(
+  'test',
+  () => $trpc.products.getExample.query({ example: example.value }),
+  {
+    watch: [example],
+  }
+)
+
+/* const { data: ex } = $trpc.products.getExample.useQuery(
+  { example: example.value },
+  {
+    watch: [example],
+  }
+) */
 
 /**
  *
  */
-const { data: product, status } =
+/* const { data: product, status } =
   await $trpc.products.getProductByName.useQuery({
     id_product_company: id_product_company,
-  })
+  }) */
 
 /**
  *
@@ -46,7 +61,9 @@ const addProduct = (p: GetProductByName) => {
 </script>
 
 <template>
-  <VueSkeleton v-if="status === 'pending'" />
+  <Button @click.prevent="example++"> {{ ex }}</Button>
+
+  <!--  <VueSkeleton v-if="status === 'pending'" />
   <div
     class="flex flex-col md:flex-row gap-12"
     v-if="status === 'success' && product"
@@ -112,5 +129,5 @@ const addProduct = (p: GetProductByName) => {
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>

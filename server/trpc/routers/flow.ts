@@ -60,7 +60,9 @@ export const flowTrpc = router({
     .input(
       z.object({
         nombre: z.string(),
+        apellido: z.string(),
         comuna: z.string(),
+        celular: z.string(),
         email: z.string().email(),
         numero: z.string(),
         region: z.string(),

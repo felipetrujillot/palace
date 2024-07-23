@@ -27,5 +27,3 @@ export const listPm2 = async () => {
 
   return stdout
 }
-
-console.log(listPm2())

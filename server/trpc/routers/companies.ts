@@ -13,7 +13,8 @@ export const companiesTrpc = router({
    *
    */
   getCompanies: protectedProcedure.query(async () => {
-    return await db.select().from(companies).orderBy(desc(companies.id_company))
+    const findCompanies = await db.select().from(companies).orderBy(desc(companies.id_company))
+    return findCompanies
   }),
 
   /**

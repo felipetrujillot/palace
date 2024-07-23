@@ -1,7 +1,5 @@
 /**
- * Declaración manual de la base de datos SAP
- * de momento no se usarán migraciones hasta que pasen a la versión 1.0 en drizzle
- * @author ID
+ *
  */
 import {
   mysqlTable,

@@ -22,10 +22,7 @@ const cart = useCart()
         <h1 class="text-4xl">HEADER</h1>
       </NuxtLink>
     </div>
-    <div
-      class="flex gap-1 cursor-pointer"
-      @click.prevent="showSheet = !showSheet"
-    >
+    <div class="flex gap-1 cursor-pointer" @click.prevent="showSheet = !showSheet">
       <LucideShoppingCart class="cursor-pointer" />
       <p>
         {{ cart?.length }}
@@ -46,11 +43,7 @@ const cart = useCart()
           </div>
 
           <div>
-            <Button
-              class="w-full"
-              @click.prevent="$router.push('/pagar'), (showSheet = false)"
-              >Ir al Pago</Button
-            >
+            <Button class="w-full" @click.prevent="$router.push('/pagar'), (showSheet = false)">Ir al Pago</Button>
           </div>
         </div>
       </div>

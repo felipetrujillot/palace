@@ -15,7 +15,9 @@ const isPaying = ref(false)
  */
 const payForm = ref({
   nombre: '',
+  apellido: '',
   email: '',
+  celular: '',
   comuna: '',
   calle: '',
   numero: '',
@@ -28,6 +30,8 @@ const payForm = ref({
  */
 const validaForm = ref({
   nombre: false,
+  apellido: false,
+  celular: false,
   email: false,
   comuna: false,
   calle: false,
@@ -41,6 +45,8 @@ const validaForm = ref({
 const formHasError = () => {
   validaForm.value = {
     nombre: false,
+    apellido: false,
+    celular: false,
     email: false,
     comuna: false,
     calle: false,
@@ -51,11 +57,30 @@ const formHasError = () => {
 
   let hasError = false
 
-  const { nombre, email, comuna, calle, numero, region, detalle } =
-    payForm.value
+  const {
+    nombre,
+    apellido,
+    celular,
+    email,
+    comuna,
+    calle,
+    numero,
+    region,
+    detalle,
+  } = payForm.value
 
   if (nombre.length === 0) {
     validaForm.value.nombre = true
+    hasError = true
+  }
+
+  if (apellido.length === 0) {
+    validaForm.value.apellido = true
+    hasError = true
+  }
+
+  if (celular.length === 0) {
+    validaForm.value.celular = true
     hasError = true
   }
 
@@ -79,15 +104,17 @@ const formHasError = () => {
     hasError = true
   }
 
-  if (region.length === 0) {
+  /*  if (region.length === 0) {
     validaForm.value.region = true
     hasError = true
-  }
+  } */
 
   if (detalle.length === 0) {
     validaForm.value.detalle = true
     hasError = true
   }
+
+  console.log(validaForm.value)
   return hasError
 }
 
@@ -108,7 +135,9 @@ const newPayment = async () => {
    */
   const params = {
     nombre: payForm.value.nombre,
+    apellido: payForm.value.apellido,
     email: payForm.value.email,
+    celular: payForm.value.celular,
     comuna: payForm.value.comuna,
     numero: payForm.value.numero,
     region: payForm.value.region,
@@ -141,6 +170,28 @@ const newPayment = async () => {
         </div>
 
         <div class="space-y-2">
+          <Label>Apellido</Label>
+          <Input
+            @focus="validaForm.apellido = false"
+            :class="validaForm.apellido ? 'border-primary' : ''"
+            placeholder="Mi apellido"
+            v-model="payForm.apellido"
+            type="text"
+          />
+        </div>
+
+        <div class="space-y-2">
+          <Label>Celular</Label>
+          <Input
+            @focus="validaForm.celular = false"
+            :class="validaForm.celular ? 'border-primary' : ''"
+            placeholder="+569 9999 9999"
+            v-model="payForm.celular"
+            type="text"
+          />
+        </div>
+
+        <div class="space-y-2">
           <Label>Correo Electrónico</Label>
           <Input
             @focus="validaForm.email = false"
@@ -159,7 +210,7 @@ const newPayment = async () => {
         <div class="space-y-2">
           <Label>Comuna</Label>
           <div>
-            <Select v-model="payForm.region">
+            <Select v-model="payForm.comuna">
               <SelectTrigger
                 @focus="validaForm.email = false"
                 :class="validaForm.email ? 'border-primary' : ''"

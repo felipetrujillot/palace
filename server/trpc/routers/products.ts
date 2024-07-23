@@ -64,6 +64,16 @@ export const productsTrpc = router({
       )
       .limit(5)
   }),
+  getExample: publicProcedure
+    .input(
+      z.object({
+        example: z.number(),
+      })
+    )
+    .query(async ({ input }) => {
+      console.log(input.example)
+      return { example: input.example }
+    }),
 
   /**
    *
