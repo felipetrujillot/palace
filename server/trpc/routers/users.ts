@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
+//import bcrypt from 'bcrypt'
 import { Users, companies, users } from '~~/server/db/db_schema'
 import { protectedProcedure, publicProcedure, router } from '../trpc'
 import { db } from '~~/server/db/db'
 import { z } from 'zod'
 import { and, desc, eq, sql } from 'drizzle-orm'
 import { RouterOutput } from '.'
-
+import argon2 from 'argon2'
 /**
  *
  */
@@ -71,7 +71,7 @@ export const userTrpc = router({
       let dbPass = String(usuario[0].password.replace(/\s/g, ''))
       dbPass = dbPass.replace(/^\$2y(.+)$/i, '$2a$1')
 
-      const bcrypt = await bcryptToken(usuario[0], password, dbPass)
+      const bcryptT = await bcryptToken(usuario[0], password, dbPass)
 
       await db
         .update(users)
@@ -211,9 +211,11 @@ export const desencriptaToken = async (bearerToken: string) => {
  */
 export const hashPasswordBcrypt = async (plaintextPassword: string) => {
   // Generate a salt
-  const salt = await bcrypt.genSalt(10)
+  //const salt = await bcrypt.genSalt(10)
   // Hash the password with the generated salt
-  const hash = await bcrypt.hash(plaintextPassword, salt)
+  //const hash = await bcrypt.hash(plaintextPassword, salt)
+  const hash = await argon2.hash(plaintextPassword)
+
   // Return the hashed password
   return hash
 }
@@ -245,29 +247,24 @@ export const bcryptToken = async (
   const usuarioPartner = {
     ...usuario,
   }
-  const decoded: LoginResponse = <LoginResponse>await new Promise((resolve) => {
-    bcrypt.compare(password, dbPass, (bcryptErr, isMatch) => {
-      if (bcryptErr || !isMatch) {
-        resolve({
-          status: 'err' as const,
-          data: 'La contraseña no es válida',
-        })
-      }
 
-      // Create and sign the JWT token
-      const token = jwt.sign(usuarioPartner, config.jwtSecret as string, {
-        expiresIn: '3y',
-      })
-      resolve({
-        status: 'ok' as const,
-        data: 'Login correcto',
-        usuario_db: usuarioPartner,
-        token: token,
-      })
-    })
+  const isMatch = await argon2.verify(dbPass, password)
+
+  if (!isMatch)
+    return {
+      status: 'err' as const,
+      data: 'La contraseña no es válida',
+    }
+
+  const token = jwt.sign(usuarioPartner, config.jwtSecret as string, {
+    expiresIn: '3y',
   })
-
-  return decoded
+  return {
+    status: 'ok' as const,
+    data: 'Login correcto',
+    usuario_db: usuarioPartner,
+    token: token,
+  }
 }
 
 export type GetUsers = RouterOutput['user']['getUsers']

@@ -3,7 +3,14 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt'],
+  compatibilityDate: '2024-07-24',
+  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', 'nitro-cloudflare-dev'],
+
+  tailwindcss: {
+    // exposeConfig: false,
+    viewer: false,
+    // and more...
+  },
   devtools: { enabled: false },
 
   build: {
@@ -22,7 +29,7 @@ export default defineNuxtConfig({
     componentDir: './app/components/ui',
   },
   nitro: {
-    preset: 'node',
+    preset: 'cloudflare-pages',
   },
 
   app: {

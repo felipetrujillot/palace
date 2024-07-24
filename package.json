@@ -11,15 +11,9 @@
   },
   "dependencies": {
     "@google-cloud/storage": "^7.11.1",
-    "@tailwindcss/typography": "^0.5.13",
-    "@tiptap/extension-highlight": "^2.3.1",
-    "@tiptap/extension-link": "^2.3.1",
-    "@tiptap/extension-typography": "^2.3.1",
-    "@tiptap/pm": "^2.3.1",
-    "@tiptap/starter-kit": "^2.3.1",
-    "@tiptap/vue-3": "^2.3.1",
     "@trpc/server": "^10.45.2",
     "@vueuse/core": "^10.9.0",
+    "argon2": "^0.40.3",
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
@@ -33,7 +27,6 @@
     "radix-vue": "^1.8.4",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "three": "^0.166.1",
     "trpc-nuxt": "^0.10.21",
     "vaul-vue": "^0.1.2",
     "vue": "^3.4.21",
@@ -41,14 +34,17 @@
     "zod": "^3.23.6"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240722.0",
     "@nuxtjs/tailwindcss": "^6.12.0",
     "@types/bcrypt": "^5.0.2",
     "@types/crypto-js": "^4.2.2",
     "@types/formidable": "^3.4.5",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/three": "^0.166.0",
-    "nuxt": "^3.12.2",
+    "nitro-cloudflare-dev": "^0.1.6",
+    "nuxt": "^3.12.4",
     "shadcn-nuxt": "^0.10.4",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "wrangler": "^3.66.0"
   }
 }
