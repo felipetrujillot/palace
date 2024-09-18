@@ -19,6 +19,7 @@ export const productsTrpc = router({
    * @author FT
    */
   getProducts: publicProcedure.query(async () => {
+    console.log(process.env)
     const id_company = 1
 
     return await db

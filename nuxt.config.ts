@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
   compatibilityDate: '2024-07-24',
-  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', 'nitro-cloudflare-dev'],
+  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt'],
 
   tailwindcss: {
     // exposeConfig: false,
