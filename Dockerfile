@@ -1,7 +1,7 @@
 FROM node:22-alpine
 
-RUN mkdir -p /usr/src/linebox
-WORKDIR /usr/src/linebox
+RUN mkdir -p /usr/src/palace
+WORKDIR /usr/src/palace
 COPY . .
 
 #RUN npm install -D oxc-parser
