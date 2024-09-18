@@ -60,6 +60,7 @@ export default defineNuxtConfig({
     dbName: process.env.NUXT_DB_NAME || 'ghost',
 
     public: {
+      testingName: process.env.NUXT_TESTING_NAME,
       projectName: process.env.NUXT_PROJECT_NAME || 'NUXT',
     },
   },

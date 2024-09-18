@@ -5,6 +5,7 @@ useHead({
 })
 
 const { $trpc } = useNuxtApp()
+const config = useRuntimeConfig()
 definePageMeta({
   layout: 'clean-layout',
   middleware: 'rootauth',
@@ -66,6 +67,7 @@ const { data: getProducts, status } =
 
 <template>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
+    {{ config.public.NUXT_TESTING_NAME }}
     <div v-for="(p, k) in getProducts" :key="k">
       <NuxtLink :to="`/producto/${p.id_product_company}`" class="space-y-4">
         <Card class="p-0 bg-muted cursor-pointer border-none">
